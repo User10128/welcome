@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkers Labs | The Web Multiverse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts for the different sites -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Cursor Base */
+        body, html {
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        #custom-cursor {
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s, mix-blend-mode 0.2s;
+            mix-blend-mode: difference;
+        }
+
+        #custom-cursor.hovering {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(2px);
+            border: 2px solid white;
+            mix-blend-mode: normal;
+        }
+
+        /* Hero Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+            animation: float 6s ease-in-out infinite;
+            animation-delay: 3s;
+        }
+
+        /* Site 1: Checkers (Teal Theme) */
+        .font-cyber { font-family: 'Orbitron', sans-serif; }
+        .cyber-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(20, 184, 166, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(20, 184, 166, 0.1) 1px, transparent 1px);
+        }
+
+        /* Site 2: Squishy Jump (Light Blue Arcade) */
+        .font-arcade { font-family: 'Press Start 2P', cursive; }
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.1)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .animate-blink { animation: blink 1s step-end infinite; }
+
+        /* Site 3: Abyssal Jelly */
+        .font-luxury { font-family: 'Playfair Display', serif; }
+
+        /* Site 4: Slate Notes */
+        .font-saas { font-family: 'Inter', sans-serif; }
+
+        /* Utilities */
+        .interactive-element { cursor: none; }
+    </style>
+</head>
+<body class="bg-black text-white antialiased">
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor"></div>
+
+    <!-- HERO SECTION -->
+    <header id="hero" class="relative w-full h-screen overflow-hidden flex items-center justify-center bg-gradient-to-b from-indigo-950 via-purple-900 to-black">
+        <!-- Background Stars/Particles -->
+        <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 50px 50px;"></div>
+
+        <div id="parallax-layer" class="relative z-10 w-full max-w-7xl h-full flex items-center justify-center">
+            
+            <!-- Mascot 1 (Left) -->
+            <img src="https://checkers.page/mascot.png" 
+                 alt="Mascot Left" 
+                 class="mascot absolute left-4 md:left-20 top-1/4 w-32 md:w-64 h-auto object-contain animate-float drop-shadow-[0_0_30px_rgba(20,184,166,0.3)] transition-transform duration-200 ease-out"
+                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzE0YjhhNiIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk1hc2NvdCAxPC90ZXh0Pjwvc3ZnPg=='">
+            
+            <!-- Main Title -->
+            <div class="text-center select-none pointer-events-none z-20 mix-blend-overlay">
+                <span class="text-indigo-300 font-bold tracking-widest uppercase text-sm md:text-xl mb-4 block drop-shadow-md">Checkers Labs</span>
+                <h1 class="text-6xl md:text-9xl font-black text-white tracking-tighter uppercase font-saas">
+                    Our<br>Sites
+                </h1>
+            </div>
+
+            <!-- Mascot 2 (Right) -->
+            <img src="https://checkers.page/mascot1.png" 
+                 alt="Mascot Right" 
+                 class="mascot absolute right-4 md:right-20 bottom-1/4 w-32 md:w-64 h-auto object-contain animate-float-delayed drop-shadow-[0_0_30px_rgba(20,184,166,0.3)] transition-transform duration-200 ease-out"
+                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzE0YjhhNiIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk1hc2NvdCAyPC90ZXh0Pjwvc3ZnPg=='">
+                 
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70">
+            <span class="font-saas text-sm tracking-widest uppercase mb-2">Explore</span>
+            <div class="w-[2px] h-16 bg-white/20 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1/2 bg-white animate-[slideDown_2s_ease-in-out_infinite]"></div>
+            </div>
+        </div>
+        <style>@keyframes slideDown { 0% { top: -50%; } 100% { top: 100%; } }</style>
+    </header>
+
+    <!-- THE MULTIVERSE SITES (Sticky Stacking Container) -->
+    <main class="relative w-full z-20">
+
+        <!-- SITE 1: Checkers (Teal Theme) -->
+        <section class="h-screen sticky top-0 w-full bg-zinc-950 text-white font-cyber overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.8)] border-t border-teal-900">
+           <div class="w-full h-full cyber-grid flex flex-col md:flex-row items-center justify-between p-8 md:p-20 max-w-7xl mx-auto">
+                <!-- Text Description -->
+                <div class="md:w-1/2 z-10 pr-0 md:pr-8 text-center md:text-left">
+                    <span class="text-teal-400 font-bold tracking-widest uppercase text-xs mb-4 block">Classic Board Game. Redefined.</span>
+                    <h2 class="text-5xl md:text-7xl font-black tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-cyan-500">Checkers</h2>
+                    <p class="text-lg md:text-xl text-zinc-400 mb-10 max-w-md mx-auto md:mx-0 font-sans">Experience the timeless game of strategy and skill reimagined in high-fidelity. Match against clever opponents globally or play locally in our beautiful virtual pavilion.</p>
+                    <a href="https://checkers.page" target="_blank" rel="noopener noreferrer" class="interactive-element inline-block px-8 py-4 bg-teal-600 text-white font-bold rounded-lg hover:bg-teal-500 transition-colors shadow-lg shadow-teal-950/50 uppercase tracking-widest text-sm">Play Now</a>
+                </div>
+                <!-- Screenshot Mockup (Image-Based) -->
+                <div class="md:w-1/2 w-full mt-12 md:mt-0 relative perspective-1000 z-10 hidden sm:block">
+                    <div class="bg-zinc-900 rounded-xl shadow-[0_20px_50px_rgba(20,184,166,0.15)] border border-teal-800/40 overflow-hidden transform rotate-y-[-5deg] rotate-x-[5deg] hover:rotate-y-0 hover:rotate-x-0 transition-transform duration-700">
+                        <!-- Browser Chrome -->
+                        <div class="h-10 bg-zinc-950 flex items-center px-4 border-b border-teal-900/50 gap-2">
+                            <div class="w-3 h-3 rounded-full bg-teal-500/80"></div><div class="w-3 h-3 rounded-full bg-teal-600/80"></div><div class="w-3 h-3 rounded-full bg-teal-700/80"></div>
+                            <div class="ml-4 text-xs text-teal-500/50 font-mono">checkers.page</div>
+                        </div>
+                        <!-- App Content Image Placeholder -->
+                        <div class="h-[400px] w-full bg-zinc-900 relative overflow-hidden group">
+                            <!-- Replace src with your actual screenshot URL -->
+                            <img src="https://checkers.page/Screenshot 2026-05-24 3.41.20 PM.png" 
+                                 alt="Checkers Game Screenshot" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgNDAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzEzMTkiLz48dGV4dCB4PSI0MDAiIHk9IjIwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM0NGEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPltQbGFjZWhvbGRlcjogQ2hlY2tlcnMgU2NyZWVuc2hvdF08L3RleHQ+PC9zdmc+'">
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </section>
+
+        <!-- SITE 2: Squishy Jump (Light Blue Theme) -->
+        <section class="h-screen sticky top-0 w-full bg-sky-50 text-sky-950 font-arcade overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.5)] border-t border-sky-200">
+            <div class="absolute inset-0 scanlines opacity-10 z-10"></div>
+            <div class="w-full h-full flex flex-col md:flex-row-reverse items-center justify-between p-8 md:p-20 max-w-7xl mx-auto relative z-20">
+                <!-- Text Description -->
+                <div class="md:w-1/2 z-10 pl-0 md:pl-16 text-center md:text-left">
+                    <span class="text-sky-600 font-bold tracking-widest text-xs mb-4 block font-sans">Arcade Adventure</span>
+                    <h2 class="text-3xl md:text-5xl text-sky-500 mb-6 drop-shadow-[2px_2px_0_rgba(14,165,233,0.3)] leading-tight">SQUISHY<br>JUMP!</h2>
+                    <p class="text-sm md:text-base font-sans font-bold text-sky-800/80 mb-10 max-w-md mx-auto md:mx-0 leading-relaxed">Bounce your way to the stars! Guide your adorable squishy companion through endless cloud platforms, collect special powerups, and aim for the top score.</p>
+                    <a href="https://jump.checkers.page" target="_blank" rel="noopener noreferrer" class="interactive-element inline-block px-6 py-4 bg-sky-500 text-white text-xs tracking-widest uppercase rounded shadow-[4px_4px_0_#0284c7] hover:translate-y-1 hover:shadow-[0_0_0_#0284c7] transition-all">Start Jumping</a>
+                </div>
+                <!-- Screenshot Mockup (Mobile/Phone Style Image-Based) -->
+                <div class="md:w-1/2 w-full mt-12 md:mt-0 relative z-10 flex justify-center hidden sm:flex">
+                    <div class="bg-sky-100 rounded-[2.5rem] shadow-2xl border-8 border-sky-400 overflow-hidden w-64 md:w-[320px] h-[400px] md:h-[500px] relative transform hover:-translate-y-2 transition-transform duration-500">
+                         <!-- App Content Image Placeholder -->
+                         <div class="w-full h-full bg-sky-900 relative">
+                             <!-- Replace src with your actual screenshot URL -->
+                             <img src="https://checkers.page/Screenshot 2026-05-24 3.28.43 PM.png" 
+                                  alt="Squishy Jump Game Screenshot" 
+                                  class="w-full h-full object-cover"
+                                  onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgNTAwIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iIzBiNSIvPjx0ZXh0IHg9IjE2MCIgeT0iMjUwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzRjOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+W1NxdWlzaHkgSnVtcCBTY3JlZW5zaG90XTwvdGV4dD48L3N2Zz4='">
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SITE 3: Abyssal Jelly -->
+        <section class="h-screen sticky top-0 w-full bg-[#020d1a] text-cyan-50 font-luxury overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.6)] border-t border-cyan-900/40">
+             <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-950/40 via-[#020d1a] to-[#01050a] z-0"></div>
+             <div class="w-full h-full flex flex-col md:flex-row items-center justify-between p-8 md:p-20 max-w-7xl mx-auto relative z-10">
+                <!-- Text Description -->
+                <div class="md:w-1/2 z-10 pr-0 md:pr-8 text-center md:text-left">
+                    <span class="font-sans text-cyan-400 tracking-[0.3em] uppercase text-xs mb-4 block">Ambient Exploration</span>
+                    <h2 class="text-5xl md:text-7xl font-medium mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-100 to-blue-400">Abyssal<br>Jelly</h2>
+                    <p class="text-lg md:text-xl font-sans font-light text-cyan-200/70 mb-10 max-w-md mx-auto md:mx-0 leading-relaxed">Descend into the glowing, bioluminescent depths. A mesmerizing, peaceful puzzle trip where you glide through underwater caves, guide colorful jellyfish, and unwind.</p>
+                    <a href="https://jelly.checkers.page" target="_blank" rel="noopener noreferrer" class="interactive-element inline-block border border-cyan-500/50 px-8 py-3 rounded-full text-sm font-sans tracking-widest hover:bg-cyan-500/10 transition-colors">Dive In</a>
+                </div>
+                <!-- Screenshot Mockup (Image-Based) -->
+                <div class="md:w-1/2 w-full mt-12 md:mt-0 relative z-10 hidden sm:block">
+                    <div class="bg-cyan-950/40 rounded-xl shadow-[0_0_50px_rgba(6,182,212,0.15)] border border-cyan-800/30 overflow-hidden transform hover:scale-105 transition-transform duration-700 backdrop-blur-sm">
+                        <!-- Browser Chrome -->
+                        <div class="h-10 bg-[#010811] flex items-center px-4 gap-2 border-b border-cyan-950/30">
+                            <div class="w-3 h-3 rounded-full bg-cyan-900"></div><div class="w-3 h-3 rounded-full bg-cyan-900"></div><div class="w-3 h-3 rounded-full bg-cyan-900"></div>
+                            <div class="ml-4 text-xs text-cyan-600/70 font-sans tracking-wider">jelly.checkers.page</div>
+                        </div>
+                        <!-- App Content Image Placeholder -->
+                        <div class="h-[400px] w-full bg-[#010811] relative overflow-hidden">
+                            <!-- Replace src with your actual screenshot URL -->
+                            <img src="https://checkers.page/Screenshot 2026-05-24 3.32.25 PM.png" 
+                                 alt="Abyssal Jelly Game Screenshot" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgNDAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzAwNCIvPjx0ZXh0IHg9IjQwMCIgeT0iMjAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzBiYiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+W0FieXNzYWwgSmVsbHkgU2NyZWVuc2hvdF08L3RleHQ+PC9zdmc+'">
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- SITE 4: Slate Notes -->
+        <section class="h-screen sticky top-0 w-full bg-[#f8fafc] text-slate-800 font-saas overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.5)] border-t border-slate-200">
+            <div class="w-full h-full flex flex-col md:flex-row-reverse items-center justify-between p-8 md:p-20 max-w-7xl mx-auto">
+                <!-- Text Description -->
+                <div class="md:w-1/2 z-10 pl-0 md:pl-16 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
+                        <div class="w-8 h-8 bg-slate-800 rounded flex items-center justify-center">
+                            <div class="w-4 h-4 border-2 border-white rounded-sm"></div>
+                        </div>
+                        <span class="text-slate-500 font-semibold tracking-wide uppercase text-sm">Productivity</span>
+                    </div>
+                    <h2 class="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6">Slate Notes</h2>
+                    <p class="text-lg text-slate-500 mb-10 max-w-md mx-auto md:mx-0">
+                        A beautifully simple, distraction-free environment for your thoughts. Write in clean Markdown, organize with customizable tags, and seamlessly sync across all your devices.
+                    </p>
+                    <div class="flex gap-4 justify-center md:justify-start">
+                        <a href="https://apps.microsoft.com/search/publisher?name=Slate%20notes&hl=en-US&gl=US" target="_blank" rel="noopener noreferrer" class="interactive-element inline-block px-6 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-all shadow-md">Download App</a>
+                        <a href="https://slate.checkers.page" target="_blank" rel="noopener noreferrer" class="interactive-element inline-block px-6 py-3 bg-white text-slate-700 font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition-all">Open Web</a>
+                    </div>
+                </div>
+                <!-- Screenshot Mockup (Image-Based) -->
+                <div class="md:w-1/2 w-full mt-12 md:mt-0 relative perspective-1000 z-10 hidden sm:block">
+                    <div class="bg-white rounded-xl shadow-2xl border border-slate-200/60 overflow-hidden transform rotate-y-[5deg] rotate-x-[5deg] hover:rotate-y-0 hover:rotate-x-0 transition-transform duration-700">
+                        <!-- Browser/App Chrome -->
+                        <div class="h-10 bg-slate-50 flex items-center px-4 border-b border-slate-100 gap-2">
+                            <div class="w-3 h-3 rounded-full bg-slate-300"></div><div class="w-3 h-3 rounded-full bg-slate-300"></div><div class="w-3 h-3 rounded-full bg-slate-300"></div>
+                            <div class="flex-1 text-center text-xs text-slate-400 font-medium">slate.checkers.page</div>
+                        </div>
+                        <!-- App Content Image Placeholder -->
+                        <div class="h-[400px] w-full bg-slate-50 relative overflow-hidden">
+                             <!-- Replace src with your actual screenshot URL -->
+                             <img src="https://checkers.page/Screenshot 2026-05-24 6.36.21 PM.png" 
+                                  alt="Slate Notes App Screenshot" 
+                                  class="w-full h-full object-cover"
+                                  onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgNDAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2YxZjUiLz48dGV4dCB4PSI0MDAiIHk9IjIwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM2NmIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPltTbGF0ZSBOb3RlcyBTY3JlZW5zaG90XTwvdGV4dD48L3N2Zz4='">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer class="relative z-30 bg-zinc-950 text-zinc-400 py-20 font-saas border-t border-zinc-900">
+        <div class="max-w-6xl mx-auto px-8 flex flex-col items-center text-center">
+            
+            <h3 class="text-2xl text-white font-bold mb-10">Get our Apps</h3>
+            
+            <!-- App Store Buttons -->
+            <div class="flex flex-col sm:flex-row gap-6 mb-16">
+                <!-- Google Play -->
+                <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" class="interactive-element flex items-center bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl px-6 py-3 transition-all hover:-translate-y-1 group">
+                    <svg class="w-8 h-8 mr-4 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.5 21.61V2.39C3.5 1.7 4.26 1.28 4.84 1.63L21 11.23C21.6 11.58 21.6 12.44 21 12.79L4.84 22.39C4.26 22.73 3.5 22.31 3.5 21.61Z" fill="url(#paint0_linear)"/>
+                        <defs>
+                            <linearGradient id="paint0_linear" x1="4" y1="2" x2="21" y2="12" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#00E676"/>
+                                <stop offset="0.5" stop-color="#FFD54F"/>
+                                <stop offset="1" stop-color="#F44336"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="text-left">
+                        <div class="text-xs uppercase font-medium tracking-wider text-zinc-500">GET IT ON</div>
+                        <div class="text-white font-bold text-lg leading-tight">Google Play</div>
+                    </div>
+                </a>
+
+                <!-- Microsoft Store -->
+                <a href="https://apps.microsoft.com/" target="_blank" rel="noopener noreferrer" class="interactive-element flex items-center bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl px-6 py-3 transition-all hover:-translate-y-1 group">
+                    <svg class="w-8 h-8 mr-4 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2H11V11H2V2ZM13 2H22V11H13V2ZM2 13H11V22H2V13ZM13 13H22V22H13V13Z" fill="#00A4EF"/>
+                    </svg>
+                    <div class="text-left">
+                        <div class="text-xs uppercase font-medium tracking-wider text-zinc-500">Download from</div>
+                        <div class="text-white font-bold text-lg leading-tight">Microsoft Store</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Links -->
+            <div class="flex flex-wrap justify-center gap-8 text-sm font-medium">
+                <a href="https://checkers.page" class="interactive-element hover:text-white transition-colors">checkers.page</a>
+                <a href="#" class="interactive-element hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="interactive-element hover:text-white transition-colors">Terms of Service</a>
+            </div>
+            
+            <div class="mt-12 text-xs text-zinc-600">
+                &copy; 2026 Checkers Labs. All Multiverses Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Custom Cursor Logic
+            const cursor = document.getElementById('custom-cursor');
+            const interactables = document.querySelectorAll('.interactive-element, a, button');
+
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            interactables.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.classList.add('hovering');
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('hovering');
+                });
+            });
+
+            // Subtle Parallax for Hero Mascots based on mouse position
+            const hero = document.getElementById('hero');
+            const mascots = document.querySelectorAll('.mascot');
+            
+            hero.addEventListener('mousemove', (e) => {
+                // Only calculate if hero is visible to save performance
+                if(window.scrollY > window.innerHeight) return;
+                
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+
+                if (mascots[0]) mascots[0].style.transform = `translate(${xAxis}px, ${yAxis}px)`;
+                if (mascots[1]) mascots[1].style.transform = `translate(${-xAxis}px, ${-yAxis}px)`;
+            });
+
+            hero.addEventListener('mouseleave', () => {
+                if (mascots[0]) mascots[0].style.transform = `translate(0px, 0px)`;
+                if (mascots[1]) mascots[1].style.transform = `translate(0px, 0px)`;
+            });
+        });
+    </script>
+</body>
+</html>
